@@ -25,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Category>> futureCategory;
+  
 
   @override
   void initState() {
@@ -100,40 +101,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Popular course',
                 textButton_word: 'See All',
               ),
-              Container(
-                height: 230.h,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(CourseDetails());
-                      },
-                      child: ListViewItem(
-                        containerHeight: 140.h,
-                        containerWidth: 220.w,
-                        containerColor: Color(0xffFFEA7D),
-                        title: 'Design Thingking Fundamental',
-                        personName: 'Robert Fix',
-                        price: '\$150',
-                        noteAboutPrice: 'Best Seller',
-                        shadeColor: const Color(0xffFCE2EA),
-                        noteColor: const Color(0xffFF6666),
+              FutureBuilder<List<Category>>(
+                future: futureCategory,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    List<Category> categories = snapshot.data!;
+                    return Container(
+                      height: 230.h,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(CourseDetails());
+                            },
+                            child: ListViewItem(
+                              containerHeight: 140.h,
+                              containerWidth: 220.w,
+                              containerColor: Color(0xffFFEA7D),
+                              title: 'Design Thingking Fundamental',
+                              personName: 'Robert Fix',
+                              price: '\$150',
+                              noteAboutPrice: 'Best Seller',
+                              shadeColor: const Color(0xffFCE2EA),
+                              noteColor: const Color(0xffFF6666),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    ListViewItem(
-                      containerHeight: 140.h,
-                      containerWidth: 220.w,
-                      containerColor: const Color(0xffA3CCDE),
-                      title: 'Flutter Class - Advance Program',
-                      personName: 'Wade Warren',
-                      price: '\$24',
-                      noteAboutPrice: 'Recommended',
-                      shadeColor: const Color(0xffDCF3F5),
-                      noteColor: const Color(0xff00A9B7),
-                    ),
-                  ],
-                ),
+                    );
+                  }
+                },
               ),
               SizedBox(
                 height: 10.h,

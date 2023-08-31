@@ -6,6 +6,7 @@ class ListViewItem extends StatelessWidget {
   Color? containerColor;
   final String title;
   final String personName;
+  String? imageLink;
   final String price;
   final String noteAboutPrice;
   Color? shadeColor;
@@ -15,7 +16,7 @@ class ListViewItem extends StatelessWidget {
 
   ListViewItem({
     super.key,
-    required this.containerColor,
+    this.containerColor,
     required this.title,
     required this.personName,
     required this.price,
@@ -24,6 +25,7 @@ class ListViewItem extends StatelessWidget {
     this.noteColor,
     required this.containerWidth,
     required this.containerHeight,
+    this.imageLink,
   });
 
   @override
@@ -41,68 +43,69 @@ class ListViewItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //color container
-            Container(
-              width: containerWidth,
-              height: containerHeight,
-              padding: EdgeInsets.only(
-                top: 10.h,
-                left: 10.w,
-                right: 10.w,
-              ),
-              decoration: BoxDecoration(
-                //container color
-                color: containerColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+            Stack(
+              children: [
+                // Image container
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    color: containerColor,
+                    image: imageLink != null
+                        ? DecorationImage(
+                            image: NetworkImage(imageLink!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
+                // Star rating container
+                Positioned(
+                  left: 5.w, // Adjust the positioning as needed
+                  top: 5.h, // Adjust the positioning as needed
+                  child: Container(
                     width: 49.w,
                     height: 28.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 5.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.star_sharp,
-                            color: Colors.amber[300],
-                            size: 12,
-                          ),
-                          SizedBox(width: 3.w),
-                          Text(
-                            '4.8',
-                            style: TextStyle(fontSize: 13.sp),
-                          ),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.star_sharp,
+                          color: Colors.amber[300],
+                          size: 12,
+                        ),
+                        SizedBox(width: 3.w),
+                        Text(
+                          '4.8',
+                          style: TextStyle(fontSize: 13.sp),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 8.w),
-                  Container(
+                ),
+                // Heart icon container
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
                     width: 28.w,
                     height: 28.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.favorite_sharp,
                       color: Colors.red,
                       size: 16,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
 
             SizedBox(

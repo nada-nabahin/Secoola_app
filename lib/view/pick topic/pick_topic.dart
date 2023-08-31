@@ -73,7 +73,7 @@ class _PickTopicState extends State<PickTopic> {
                       child: GridView.count(
                         scrollDirection: Axis.vertical,
                         mainAxisSpacing: 20.h,
-                        crossAxisCount: 3,
+                          crossAxisCount: 3,
                         children: categories.map((category) {
                           return TopicContainer(
                             imageLink: category.image,

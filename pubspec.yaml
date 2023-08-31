@@ -41,6 +41,8 @@ dependencies:
   get: ^4.6.5
   flutter_screenutil: ^5.8.4
   accordion: ^2.5.1
+  firebase_core: ^2.15.1
+  firebase_auth: ^4.8.0
 
 dev_dependencies:
   flutter_test:
